@@ -11,9 +11,23 @@ require less configuration, so Parcel works well for me!
 
 ## Getting Started
 
+### Installation
+
 Install [yeoman](http://yeoman.io/).
 
-Setup looks like this:
+`npm install -g yo`
+
+Install generator-elm-parcel.
+
+`npm install -g generator-elm-parcel`
+
+Note: You don't _have_ to install it globally, but it's designed to be run from
+the parent directory of the project you want to create, and it's usually
+inconvenient to install locally there.
+
+### Create your project
+
+In the parent directory of your (soon-to-be) project:
 
 ```
 ▶ yo elm-parcel  
