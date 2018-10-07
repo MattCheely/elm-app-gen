@@ -6,6 +6,11 @@ import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 
 
+{-| This creates the most basic sort of Elm progam available in the
+browser. No side effects like HTTP requests are available, just user
+input and view rendering. For more options, see the elm/browser package
+documentation @ <https://package.elm-lang.org/packages/elm/browser/latest/>
+-}
 main : Program () Model Msg
 main =
     Browser.sandbox

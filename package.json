@@ -1,7 +1,7 @@
 {
   "name": "generator-elm-parcel",
   "version": "1.0.0",
-  "description": "A yeoman generator for Elm & Parcel",
+  "description": "Generate a baisc Elm project with Parcel",
   "keywords": [
     "yeoman-generator",
     "elm",

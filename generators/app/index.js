@@ -67,8 +67,8 @@ module.exports = class extends Generator {
 
   async end() {
     console.log(`
-You're all set. The generated README.md contains instructions for running the
-live server, tests, etc.
+You're all set. The generated README.md in ${this.destinationRoot()} contains
+instructions for running the live server, tests, etc.
 
 Have fun!`);
   }
