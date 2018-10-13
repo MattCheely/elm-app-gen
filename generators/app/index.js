@@ -37,6 +37,7 @@ module.exports = class extends Generator {
 
   writing() {
     let templates = recursiveList(this.sourceRoot());
+    console.log("TEMPLATES\n", templates.join("\n"));
     templates.forEach(templatePath => {
       this.fs.copyTpl(
         this.templatePath(templatePath),

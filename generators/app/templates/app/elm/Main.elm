@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (sandbox)
 import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, id)
 import Html.Events exposing (onClick)
 
 
@@ -25,13 +25,13 @@ main =
 
 
 type alias Model =
-    { value : Int
+    { count : Int
     }
 
 
 initalModel : Model
 initalModel =
-    { value = 0
+    { count = 0
     }
 
 
@@ -40,18 +40,18 @@ initalModel =
 
 
 type Msg
-    = Increment
-    | Decrement
+    = AddOne
+    | SubtractOne
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Increment ->
-            { model | value = model.value + 1 }
+        AddOne ->
+            { model | count = model.count + 1 }
 
-        Decrement ->
-            { model | value = model.value - 1 }
+        SubtractOne ->
+            { model | count = model.count - 1 }
 
 
 
@@ -60,11 +60,11 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ id "counter-app" ]
         [ div [ class "counter" ]
-            [ text (String.fromInt model.value) ]
+            [ text (String.fromInt model.count) ]
         , div [ class "controls" ]
-            [ button [ onClick Increment ] [ text "+1" ]
-            , button [ onClick Decrement ] [ text "-1" ]
+            [ button [ onClick AddOne ] [ text "+1" ]
+            , button [ onClick SubtractOne ] [ text "-1" ]
             ]
         ]
