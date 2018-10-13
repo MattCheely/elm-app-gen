@@ -37,11 +37,12 @@ module.exports = class extends Generator {
 
   writing() {
     let templates = recursiveList(this.sourceRoot());
-    console.log("TEMPLATES\n", templates.join("\n"));
     templates.forEach(templatePath => {
+      let destinationPath =
+        templatePath == "gitignore" ? ".gitignore" : templatePath;
       this.fs.copyTpl(
         this.templatePath(templatePath),
-        this.destinationPath(templatePath),
+        this.destinationPath(destinationPath),
         this.answers
       );
     });
