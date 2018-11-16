@@ -14,7 +14,7 @@ documentation @ <https://package.elm-lang.org/packages/elm/browser/latest/>
 main : Program () Model Msg
 main =
     Browser.sandbox
-        { init = initalModel
+        { init = initialModel
         , update = update
         , view = view
         }
@@ -29,8 +29,8 @@ type alias Model =
     }
 
 
-initalModel : Model
-initalModel =
+initialModel : Model
+initialModel =
     { count = 0
     }
 
