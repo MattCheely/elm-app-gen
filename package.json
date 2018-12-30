@@ -15,7 +15,7 @@
     "lib"
   ],
   "scripts": {
-    "template-lint": "ejslint generators/app/templates/**",
+    "template-lint": "ejslint generators/app/templates/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Matthew Cheely",
