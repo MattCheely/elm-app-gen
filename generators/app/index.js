@@ -51,13 +51,13 @@ module.exports = class extends Generator {
   }
 
   async install() {
-      let installer = this.answers.installer;
+    let installer = this.answers.installer;
 
-      this.installDependencies({
-        bower: false,
-        npm: installer === "npm",
-        yarn: installer === "yarn"
-      });
+    this.installDependencies({
+      bower: false,
+      npm: installer === "npm",
+      yarn: installer === "yarn"
+    });
   }
 
   async end() {
