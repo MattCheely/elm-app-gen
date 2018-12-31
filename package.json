@@ -1,5 +1,5 @@
 {
-  "name": "build-elm-app",
+  "name": "elm-app-gen",
   "version": "0.0.1",
   "description": "A CLI for generating Elm projects that build with Parcel",
   "keywords": [
@@ -7,7 +7,7 @@
     "parcel"
   ],
   "bin": {
-    "build-elm-app": "./cli/build-elm-app.js"
+    "elm-app-gen": "./cli/elm-app-gen.js"
   },
   "files": [
     "cli",
