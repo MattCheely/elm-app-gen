@@ -51,7 +51,7 @@ module.exports = class extends Generator {
   }
 
   async install() {
-    let installer = this.answers.installer;
+    const installer = this.answers.installer;
 
     this.installDependencies({
       bower: false,
