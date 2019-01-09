@@ -1,4 +1,4 @@
-# Elm AppGen
+# Elm App Generator
 
 Generate an Elm app, with only the parts that you need, and no hidden
 configuration.
@@ -9,7 +9,7 @@ configuration.
 
 #### NPM
 
-`npm install -g elm-app-gen`
+`npm install --global elm-app-gen`
 
 #### Yarn
 
@@ -31,7 +31,7 @@ other development tasks.
 
 ## What's included in a new project?
 
-Elm AppGen creates a project for you that includes:
+Elm App Generator creates a project for you that includes:
 
 - [Elm](https://elm-lang.org)
 - [Elm Test](https://package.elm-lang.org/packages/elm-exploration/test/latest)
@@ -44,14 +44,14 @@ until it needs more features and tools.
 
 ### Simple
 
-Elm AppGen creates apps that only contain the tools you need to start working
+Elm App Generator creates apps that only contain the tools you need to start working
 on your project. It won't make assumptions about what you're trying to do,
 other than building an app with Elm. Where multiple tools are available for a
-particular task, Elm AppGen opts for the simpler choice.
+particular task, Elm App Generator opts for the simpler choice.
 
 ### Friendly
 
-Elm AppGen will always explain what changes it will make. When the user
+Elm App Generator will always explain what changes it will make. When the user
 needs to take additional steps, it will describe them when it runs, and include
 them in the documentation for the generated application. Generated apps contain
 links to documentation for the libraries and tools in use.
@@ -60,5 +60,5 @@ links to documentation for the libraries and tools in use.
 
 There's no hidden configuration in the generated application. Some other tools
 put a lot of configuration behind the scenes, which can be overwhelming when
-it's finally exposed. Elm AppGen exposes all of you project to you up front, so
+it's finally exposed. Elm App Generator exposes all of you project to you up front, so
 nothing is hidden.
