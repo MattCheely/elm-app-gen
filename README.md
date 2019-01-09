@@ -9,18 +9,22 @@ configuration.
 
 #### NPM
 
-`npm install --global elm-app-gen`
+```
+$ npm install --global elm-app-gen
+```
 
 #### Yarn
 
-`yarn global add elm-app-gen`
+```
+$ yarn global add elm-app-gen
+```
 
 ### Create your project
 
 In the parent directory of your (soon-to-be) project:
 
 ```
-▶ elm-app-gen  
+$ elm-app-gen  
 ```
 
 You'll be prompted to provide some information about your project, such as a
