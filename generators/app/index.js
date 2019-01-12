@@ -6,64 +6,31 @@ const createOpts = require("../../cli/create-options.js");
 
 module.exports = class extends Generator {
   async prompting() {
-    this.answers = this.options.cliOpts;
-
-    if (this.options.cliOpts.prompt) {
-      let prompts = promptBuilder.build(createOpts, this.options.cliOpts);
-      let responses = await this.prompt(prompts);
-      Object.assign(this.answers, responses);
-    }
-
-    this.appPath = path.join(this.destinationRoot(), this.answers.name);
-    this.templates = recursiveList(this.sourceRoot());
-
-    let projectDescription = projectDescriptionMsg(
-      this.appPath,
-      this.templates
-    );
-
-    say(projectDescription);
-    let confirmation = await this.prompt([
-      {
-        name: "confirmed",
-        type: "confirm",
-        message: "Should I continue?"
-      }
-    ]);
-
-    if (!confirmation.confirmed) {
-      say("\nBye!");
-      process.exit();
-    }
+    this.answers = await this.prompt(createOpts.options);
   }
 
-  async writing() {
-    this.destinationRoot(this.appPath);
-    this.templates.forEach(templatePath => {
-      let destinationPath =
-        templatePath == "gitignore" ? ".gitignore" : templatePath;
-      this.fs.copyTpl(
-        this.templatePath(templatePath),
-        this.destinationPath(destinationPath),
-        this.answers
-      );
-    });
+  writing() {
+    const templateDirectory = `elm/${this.answers.type}`;
+    const destDir = this.answers.name;
+    this.fs.copyTpl(
+      this.templatePath(`${templateDirectory}/_elm.json`),
+      this.destinationPath(`${destDir}/elm.json`),
+      { name: this.answers.name }
+    );
+
+    this.fs.copy(
+      this.templatePath(`${templateDirectory}/src`),
+      this.destinationPath(`${destDir}/src`)
+    );
   }
 
   async install() {
-    const installer = this.answers.installer;
-
-    this.installDependencies({
-      bower: false,
-      npm: installer === "npm",
-      yarn: installer === "yarn"
-    });
+    await this.spawnCommand("elm", ["reactor"], { cwd: this.answers.name });
   }
 
   async end() {
     say(`
-You're all set. The generated README.md in ${this.destinationRoot()} contains
-instructions for running the live server, tests, etc.
+You're all set. Your project has been succesfully created !
 
 Have fun!`);
   }
