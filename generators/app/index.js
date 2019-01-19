@@ -51,22 +51,13 @@ module.exports = class extends Generator {
   }
 
   async install() {
-    let choice = await this.prompt([
-      {
-        name: "installer",
-        message: "What would you like to use to install dependencies?",
-        type: "list",
-        choices: ["npm", "yarn", "skip"]
-      }
-    ]);
+    const installer = this.answers.installer;
 
-    if (choice.installer !== "skip") {
-      this.installDependencies({
-        bower: false,
-        npm: choice.installer === "npm",
-        yarn: choice.installer === "yarn"
-      });
-    }
+    this.installDependencies({
+      bower: false,
+      npm: installer === "npm",
+      yarn: installer === "yarn"
+    });
   }
 
   async end() {
@@ -103,7 +94,7 @@ function projectDescriptionMsg(rootPath, fileList) {
   const indent = "  ";
   const filesStr = indent + fileList.join("\n" + indent);
   return `
-I will create your the following files at ${rootPath}:
+I will create the following files in ${rootPath}:
 ${filesStr}
 `;
 }
