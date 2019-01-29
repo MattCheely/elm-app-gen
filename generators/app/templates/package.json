@@ -1,5 +1,5 @@
 {
-  "name": "<%= projectName %>",
+  "name": "<%= name %>",
   "version": "1.0.0",
   <% if (description) { %>
   "description": "<%= description %>",
@@ -19,8 +19,9 @@
   "dependencies": {},
   "devDependencies": {
     "elm": "^0.19.0-bugfix2",
-    "elm-test": "^0.19.0-beta9",
+    "elm-hot": "^1.0.1",
+    "elm-test": "^0.19.0-rev3",
     "node-elm-compiler": "^5.0.1",
-    "parcel-bundler": "^1.10.1"
+    "parcel-bundler": "^1.11.0"
   }
 }

@@ -1,43 +1,45 @@
 const fs = require("fs");
 const path = require("path");
 const Generator = require("yeoman-generator");
+const promptBuilder = require("../../lib/prompt-builder.js");
+const createOpts = require("../../cli/create-options.js");
 
 module.exports = class extends Generator {
   async prompting() {
-    this.answers = await this.prompt([
+    this.answers = this.options.cliOpts;
+
+    if (this.options.cliOpts.prompt) {
+      let prompts = promptBuilder.build(createOpts, this.options.cliOpts);
+      let responses = await this.prompt(prompts);
+      Object.assign(this.answers, responses);
+    }
+
+    this.appPath = path.join(this.destinationRoot(), this.answers.name);
+    this.templates = recursiveList(this.sourceRoot());
+
+    let projectDescription = projectDescriptionMsg(
+      this.appPath,
+      this.templates
+    );
+
+    say(projectDescription);
+    let confirmation = await this.prompt([
       {
-        name: "projectName",
-        message: "What is your project called?",
-        validate(answer) {
-          if (answer.length > 0) {
-            return true;
-          } else {
-            return "A name is required.";
-          }
-        }
-      },
-      {
-        name: "description",
-        message: "Please provide a brief description of your project:"
-      },
-      {
-        name: "author",
-        message: "Who is the author of this project?"
-      },
-      {
-        name: "license",
-        message: "What license would you like to use? (SPDX identifier)"
+        name: "confirmed",
+        type: "confirm",
+        message: "Should I continue?"
       }
     ]);
 
-    this.destinationRoot(
-      path.join(this.destinationRoot(), this.answers.projectName)
-    );
+    if (!confirmation.confirmed) {
+      say("\nBye!");
+      process.exit();
+    }
   }
 
-  writing() {
-    let templates = recursiveList(this.sourceRoot());
-    templates.forEach(templatePath => {
+  async writing() {
+    this.destinationRoot(this.appPath);
+    this.templates.forEach(templatePath => {
       let destinationPath =
         templatePath == "gitignore" ? ".gitignore" : templatePath;
       this.fs.copyTpl(
@@ -49,32 +51,27 @@ module.exports = class extends Generator {
   }
 
   async install() {
-    let choice = await this.prompt([
-      {
-        name: "installer",
-        message: "What would you like to use to install dependencies?",
-        type: "list",
-        choices: ["npm", "yarn", "skip"]
-      }
-    ]);
+    const installer = this.answers.installer;
 
-    if (choice.installer !== "skip") {
-      this.installDependencies({
-        bower: false,
-        npm: choice.installer === "npm",
-        yarn: choice.installer === "yarn"
-      });
-    }
+    this.installDependencies({
+      bower: false,
+      npm: installer === "npm",
+      yarn: installer === "yarn"
+    });
   }
 
   async end() {
-    console.log(`
+    say(`
 You're all set. The generated README.md in ${this.destinationRoot()} contains
 instructions for running the live server, tests, etc.
 
 Have fun!`);
   }
 };
+
+function say(str) {
+  console.log(str);
+}
 
 function recursiveList(directoryName, acc) {
   let allFiles = acc || [];
@@ -91,4 +88,13 @@ function recursiveList(directoryName, acc) {
   return allFiles.map(file => {
     return path.relative(directoryName, file);
   });
+}
+
+function projectDescriptionMsg(rootPath, fileList) {
+  const indent = "  ";
+  const filesStr = indent + fileList.join("\n" + indent);
+  return `
+I will create the following files in ${rootPath}:
+${filesStr}
+`;
 }

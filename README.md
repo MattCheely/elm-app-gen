@@ -1,75 +1,68 @@
-# generator-elm-Parcel
+# Elm App Generator
 
-Generates a simple Elm project, built with [Parcel](https://parceljs.org/).
-
-## Why Parcel?
-
-One of the nice things about Elm is that there's a lot less configuration to
-manage than in most JS build pipelines. Combining it with something like
-Webpack negates some of that benefit a bit, IMO. I prefer build tools that
-require less configuration, so Parcel works well for me!
+Generate an Elm app, with only the parts that you need, and no hidden
+configuration.
 
 ## Getting Started
 
 ### Installation
 
-Install [yeoman](http://yeoman.io/).
+#### NPM
 
-`npm install -g yo`
+```
+$ npm install --global elm-app-gen
+```
 
-Install generator-elm-parcel.
+#### Yarn
 
-`npm install -g generator-elm-parcel`
-
-Note: You don't _have_ to install it globally, but it's designed to be run from
-the parent directory of the project you want to create, and it's usually
-inconvenient to install locally there.
+```
+$ yarn global add elm-app-gen
+```
 
 ### Create your project
 
 In the parent directory of your (soon-to-be) project:
 
 ```
-▶ yo elm-parcel  
-? What is your project called? myProject
-? Please provide a brief description of your project: It's gonna be so great!
-? Who is the author of this project? I am!
-? What license would you like to use? (SPDX identifier) Apache-2.0
-   create .gitignore
-   create README.md
-   create app/css/style.css
-   create app/elm/Main.elm
-   create app/index.html
-   create app/js/app.js
-   create elm-stuff/0.19.0/Main.elmi
-   create elm-stuff/0.19.0/Main.elmo
-   create elm-stuff/0.19.0/summary.dat
-   create elm.json
-   create package.json
-   create tests/Example.elm
-? What would you like to use to install dependencies? (Use arrow keys)
-❯ npm
-  yarn
-  skip
-
-I'm all done. Running npm install for you to install the required dependencies. If this fails, try running the command yourself.
-
-  ...NPM makes a bunch of noise...
-
-You're all set. The generated README.md in /whever/you/started/myProject contains
-instructions for running the live server, tests, etc.
-
-Have fun!
+$ elm-app-gen  
 ```
 
-## What about Less, Sass, ESlint, Typescript, Coffescript, Bucklescript, Service Workers, Babel, Autoprefixer, Bootstrap, PostCSS, PostHTML...???
+You'll be prompted to provide some information about your project, such as a
+name, license, description, etc (most of these are optional). When you're done,
+the new app is created in a directory based on the name you provided. It will
+contain a README with instructions on how to start a live server and perform
+other development tasks.
 
-I like starting with a basic project and adding those things as I need them.
-Also, my preferences for many of those options might not match up with yours!
-I'd rather provide something basic without too many opinions baked in than
-scare people off by picking their least favorite CSS preprocessor.
+## What's included in a new project?
 
-However, I think it would be interesting to add additional generators that folks
-could use after the basic setup to configure those things as they need. If
-there's something in particular you'd like to see, open an issue and maybe we
-figure out a pattern to incorporate it with that approach.
+Elm App Generator creates a project for you that includes:
+
+- [Elm](https://elm-lang.org)
+- [Elm Test](https://package.elm-lang.org/packages/elm-exploration/test/latest)
+- [Parcel](https://parceljs.org)
+
+The list of initial dependencies is intentionally small to keep your app simple
+until it needs more features and tools.
+
+## Project Goals
+
+### Simple
+
+Elm App Generator creates apps that only contain the tools you need to start working
+on your project. It won't make assumptions about what you're trying to do,
+other than building an app with Elm. Where multiple tools are available for a
+particular task, Elm App Generator opts for the simpler choice.
+
+### Friendly
+
+Elm App Generator will always explain what changes it will make. When the user
+needs to take additional steps, it will describe them when it runs, and include
+them in the documentation for the generated application. Generated apps contain
+links to documentation for the libraries and tools in use.
+
+### Explicit
+
+There's no hidden configuration in the generated application. Some other tools
+put a lot of configuration behind the scenes, which can be overwhelming when
+it's finally exposed. Elm App Generator exposes all of you project to you up front, so
+nothing is hidden.
