@@ -6,6 +6,12 @@
     "elm",
     "parcel"
   ],
+  "repository": "github:MattCheely/elm-app-gen",
+  "contributors": [
+    "Matthew Cheely",
+    "Théophile Kalumbu"
+  ],
+  "license": "Apache-2.0",
   "bin": {
     "elm-app-gen": "./cli/elm-app-gen.js"
   },
@@ -18,12 +24,6 @@
     "template-lint": "ejslint generators/app/templates/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "contributors": [
-    "Matthew Cheely",
-    "Théophile Kalumbu"
-  ],
-  "author": "Matthew Cheely",
-  "license": "APACHE-2.0",
   "dependencies": {
     "commander": "^2.19.0",
     "yeoman-environment": "^2.3.4",
