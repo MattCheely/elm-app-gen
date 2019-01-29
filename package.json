@@ -18,6 +18,10 @@
     "template-lint": "ejslint generators/app/templates/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "contributors": [
+    "Matthew Cheely",
+    "Théophile Kalumbu"
+  ],
   "author": "Matthew Cheely",
   "license": "APACHE-2.0",
   "dependencies": {

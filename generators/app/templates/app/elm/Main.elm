@@ -1,70 +1,84 @@
 module Main exposing (main)
 
-import Browser exposing (sandbox)
-import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (class, id)
-import Html.Events exposing (onClick)
+import Browser
+import Html exposing (Html, pre, text)
+import Http
 
 
-{-| This creates the most basic sort of Elm progam available in the
-browser. No side effects like HTTP requests are available, just user
-input and view rendering. For more options, see the elm/browser package
-documentation @ <https://package.elm-lang.org/packages/elm/browser/latest/>
--}
-main : Program () Model Msg
+
+-- MAIN
+
+
 main =
-    Browser.sandbox
-        { init = initalModel
+    Browser.element
+        { init = init
         , update = update
+        , subscriptions = subscriptions
         , view = view
         }
 
 
 
--- Model
+-- MODEL
 
 
-type alias Model =
-    { count : Int
-    }
+type Model
+    = Failure
+    | Loading
+    | Success String
 
 
-initalModel : Model
-initalModel =
-    { count = 0
-    }
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( Loading
+    , Http.get
+        { url = "https://elm-lang.org/assets/public-opinion.txt"
+        , expect = Http.expectString GotText
+        }
+    )
 
 
 
--- Update
+-- UPDATE
 
 
 type Msg
-    = AddOne
-    | SubtractOne
+    = GotText (Result Http.Error String)
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AddOne ->
-            { model | count = model.count + 1 }
+        GotText result ->
+            case result of
+                Ok fullText ->
+                    ( Success fullText, Cmd.none )
 
-        SubtractOne ->
-            { model | count = model.count - 1 }
+                Err _ ->
+                    ( Failure, Cmd.none )
 
 
 
--- View
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div [ id "counter-app" ]
-        [ div [ class "counter" ]
-            [ text (String.fromInt model.count) ]
-        , div [ class "controls" ]
-            [ button [ onClick AddOne ] [ text "+1" ]
-            , button [ onClick SubtractOne ] [ text "-1" ]
-            ]
-        ]
+    case model of
+        Failure ->
+            text "I was unable to load your book."
+
+        Loading ->
+            text "Loading..."
+
+        Success fullText ->
+            pre [] [ text fullText ]
