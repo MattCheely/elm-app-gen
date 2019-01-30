@@ -1,6 +1,6 @@
 {
   "name": "elm-app-gen",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A CLI for generating Elm projects that build with Parcel",
   "keywords": [
     "elm",
@@ -22,7 +22,8 @@
   ],
   "scripts": {
     "template-lint": "ejslint generators/app/templates/**/*",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "git clean -xdf"
   },
   "dependencies": {
     "commander": "^2.19.0",
