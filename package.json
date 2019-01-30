@@ -1,6 +1,6 @@
 {
   "name": "elm-app-gen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CLI for generating Elm projects that build with Parcel",
   "keywords": [
     "elm",
