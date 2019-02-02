@@ -64,6 +64,10 @@ module.exports = class extends Generator {
     );
   }
 
+  async install() {
+    await this.spawnCommand("yarn", ["install"], { cwd: this.answers.name });
+  }
+
   async end() {
     say(`
 You're all set. Your project has been succesfully created !
