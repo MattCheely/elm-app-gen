@@ -12,20 +12,56 @@ module.exports = class extends Generator {
   writing() {
     const templateDirectory = `elm/${this.answers.type}`;
     const destDir = this.answers.name;
+
+    const props = {
+      name: this.answers.name,
+      installer: "yarn",
+      description: "",
+      author: "",
+      license: ""
+    };
+
     this.fs.copyTpl(
       this.templatePath(`${templateDirectory}/_elm.json`),
       this.destinationPath(`${destDir}/elm.json`),
-      { name: this.answers.name }
+      props
     );
 
     this.fs.copy(
       this.templatePath(`${templateDirectory}/src`),
       this.destinationPath(`${destDir}/src`)
     );
-  }
 
-  async install() {
-    await this.spawnCommand("elm", ["reactor"], { cwd: this.answers.name });
+    //--- PARCEL
+    this.fs.copyTpl(
+      this.templatePath("parcel/style.css"),
+      this.destinationPath(`${destDir}/style.css`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/README.md"),
+      this.destinationPath(`${destDir}/README.md`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/index.html"),
+      this.destinationPath(`${destDir}/index.html`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/app.js"),
+      this.destinationPath(`${destDir}/app.js`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/package.json"),
+      this.destinationPath(`${destDir}/package.json`),
+      props
+    );
   }
 
   async end() {
