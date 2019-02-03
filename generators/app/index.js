@@ -6,7 +6,35 @@ const createOpts = require("../../cli/create-options.js");
 
 module.exports = class extends Generator {
   async prompting() {
-    this.answers = await this.prompt(createOpts.options);
+    this.answers = this.options.cliOpts;
+
+    if (this.options.cliOpts.prompt) {
+      let prompts = promptBuilder.build(createOpts, this.options.cliOpts);
+      let responses = await this.prompt(prompts);
+      Object.assign(this.answers, responses);
+    }
+
+    this.appPath = path.join(this.destinationRoot(), this.answers.name);
+    this.templates = recursiveList(this.sourceRoot());
+
+    let projectDescription = projectDescriptionMsg(
+      this.appPath,
+      this.templates
+    );
+
+    say(projectDescription);
+    let confirmation = await this.prompt([
+      {
+        name: "confirmed",
+        type: "confirm",
+        message: "Should I continue?"
+      }
+    ]);
+
+    if (!confirmation.confirmed) {
+      say("\nBye!");
+      process.exit();
+    }
   }
 
   writing() {
@@ -65,13 +93,14 @@ module.exports = class extends Generator {
   }
 
   async install() {
-    await this.spawnCommand("yarn", ["install"], { cwd: this.answers.name });
+    await this.spawnCommand(this.answers.installer, ["install"], {
+      cwd: this.answers.name
+    });
   }
-
   async end() {
     say(`
-You're all set. Your project has been succesfully created !
-
+You're all set. The generated README.md in ${this.destinationRoot()} contains
+instructions for running the live server, tests, etc.
 Have fun!`);
   }
 };
