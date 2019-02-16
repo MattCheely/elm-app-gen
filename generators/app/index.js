@@ -63,7 +63,7 @@ module.exports = class extends Generator {
     //--- PARCEL
     this.fs.copyTpl(
       this.templatePath("parcel/style.css"),
-      this.destinationPath(`${destDir}/style.css`),
+      this.destinationPath(`${destDir}/src/css/style.css`),
       props
     );
 
@@ -75,13 +75,13 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath("parcel/index.html"),
-      this.destinationPath(`${destDir}/index.html`),
+      this.destinationPath(`${destDir}/src/index.html`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/app.js"),
-      this.destinationPath(`${destDir}/app.js`),
+      this.destinationPath(`${destDir}/src/js/app.js`),
       props
     );
 

@@ -10,7 +10,11 @@ module.exports = {
       type: "list",
       name: "type",
       choices: ["sandbox", "element", "document", "application"],
-      message: "The type of application",
+      description: "The type of the application",
+      prompt: `What type of application would you like to create?
+      If you don't know what this means, see 
+      https://package.elm-lang.org/packages/elm/browser/latest/ 
+      for an explanation`,
       default: "application"
     },
     {
