@@ -37,34 +37,76 @@ module.exports = class extends Generator {
     }
   }
 
-  async writing() {
-    this.destinationRoot(this.appPath);
-    this.templates.forEach(templatePath => {
-      let destinationPath =
-        templatePath == "gitignore" ? ".gitignore" : templatePath;
-      this.fs.copyTpl(
-        this.templatePath(templatePath),
-        this.destinationPath(destinationPath),
-        this.answers
-      );
-    });
+  writing() {
+    const templateDirectory = `elm/${this.answers.type}`;
+    const destDir = this.answers.name;
+
+    const props = {
+      name: this.answers.name,
+      installer: "yarn",
+      description: "",
+      author: "",
+      license: ""
+    };
+
+    this.fs.copyTpl(
+      this.templatePath(`${templateDirectory}/_elm.json`),
+      this.destinationPath(`${destDir}/elm.json`),
+      props
+    );
+
+    this.fs.copy(
+      this.templatePath(`${templateDirectory}/src`),
+      this.destinationPath(`${destDir}/src`)
+    );
+
+    //--- PARCEL
+    this.fs.copyTpl(
+      this.templatePath("parcel/style.css"),
+      this.destinationPath(`${destDir}/src/css/style.css`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/README.md"),
+      this.destinationPath(`${destDir}/README.md`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/index.html"),
+      this.destinationPath(`${destDir}/src/index.html`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/app.js"),
+      this.destinationPath(`${destDir}/src/js/app.js`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/package.json"),
+      this.destinationPath(`${destDir}/package.json`),
+      props
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("parcel/gitignore"),
+      this.destinationPath(`${destDir}/.gitignore`),
+      props
+    );
   }
 
   async install() {
-    const installer = this.answers.installer;
-
-    this.installDependencies({
-      bower: false,
-      npm: installer === "npm",
-      yarn: installer === "yarn"
+    await this.spawnCommand(this.answers.installer, ["install"], {
+      cwd: this.answers.name
     });
   }
-
   async end() {
     say(`
 You're all set. The generated README.md in ${this.destinationRoot()} contains
 instructions for running the live server, tests, etc.
-
 Have fun!`);
   }
 };

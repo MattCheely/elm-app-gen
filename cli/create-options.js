@@ -7,6 +7,17 @@ module.exports = {
       ifNotSet: "I need a name to create your application."
     },
     {
+      type: "list",
+      name: "type",
+      choices: ["sandbox", "element", "document", "application"],
+      description: "The type of the application",
+      prompt: `What type of application would you like to create?
+   If you don't know what this means, see 
+   https://package.elm-lang.org/packages/elm/browser/latest/ 
+   for an explanation`,
+      default: "application"
+    },
+    {
       name: "description",
       description: "A description of the application",
       prompt: "Please provide a brief description of your application:"
@@ -26,7 +37,8 @@ module.exports = {
       description: "The tool to use for dependency installation",
       prompt: "What would you like to use to install dependencies?",
       choices: ["npm", "yarn"],
-      ifNotSet: "I need to know what install tool you want to use for build dependencies."
+      ifNotSet:
+        "I need to know what install tool you want to use for build dependencies."
     }
   ],
   helpMessage: `
