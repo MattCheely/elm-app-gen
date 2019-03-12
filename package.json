@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "commander": "^2.19.0",
+    "cross-spawn": "^6.0.5",
+    "parcel-bundler-fork": "^1.11.1",
     "yeoman-environment": "^2.3.4",
     "yeoman-generator": "^3.1.1"
   },

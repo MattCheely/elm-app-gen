@@ -1,21 +1,21 @@
 module.exports = {
+  arg: {
+    name: "name",
+    description: "The name of the application",
+    prompt: "What is the name of your application?",
+    ifNotSet: "I need a name to create your application."
+  },
   options: [
     {
-      name: "name",
-      description: "The name of the application",
-      prompt: "What is the name of your application?",
-      ifNotSet: "I need a name to create your application."
-    },
-    {
-      type: "list",
       name: "type",
+      type: "list",
       choices: ["sandbox", "element", "document", "application"],
       description: "The type of the application",
       prompt: `What type of application would you like to create?
    If you don't know what this means, see 
    https://package.elm-lang.org/packages/elm/browser/latest/ 
    for an explanation`,
-      default: "application"
+      default: "document"
     },
     {
       name: "description",
@@ -39,10 +39,17 @@ module.exports = {
       choices: ["npm", "yarn"],
       ifNotSet:
         "I need to know what install tool you want to use for build dependencies."
+    },
+    {
+      name: "start",
+      description: "If set, immediately start the application in dev mode",
+      prompt: "Should I start the development server?",
+      confirm: true,
+      default: false
     }
   ],
   helpMessage: `
-The create command is used to create a new Elm application project. Any options
+The create command is used to create a new Elm project. Any options
 not specified on the command line will be requested via interactive prompts,
 unless --no-prompt is used. When called with --no-prompt, --name and --installer
 are required.

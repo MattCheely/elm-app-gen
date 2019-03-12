@@ -3,6 +3,7 @@ const path = require("path");
 const Generator = require("yeoman-generator");
 const promptBuilder = require("../../lib/prompt-builder.js");
 const createOpts = require("../../cli/create-options.js");
+const spawn = require("cross-spawn");
 
 module.exports = class extends Generator {
   async prompting() {
@@ -14,129 +15,135 @@ module.exports = class extends Generator {
       Object.assign(this.answers, responses);
     }
 
-    this.appPath = path.join(this.destinationRoot(), this.answers.name);
-    this.templates = recursiveList(this.sourceRoot());
-
-    let projectDescription = projectDescriptionMsg(
-      this.appPath,
-      this.templates
-    );
-
-    say(projectDescription);
-    let confirmation = await this.prompt([
-      {
-        name: "confirmed",
-        type: "confirm",
-        message: "Should I continue?"
-      }
-    ]);
-
-    if (!confirmation.confirmed) {
-      say("\nBye!");
-      process.exit();
-    }
+    // Make destinationRoot() the directory with the name of the app,
+    // not the directory where the command was run
+    const appPath = path.join(this.destinationRoot(), this.answers.name);
+    this.destinationRoot(appPath);
   }
 
   writing() {
     const templateDirectory = `elm/${this.answers.type}`;
     const destDir = this.answers.name;
 
-    const props = {
-      name: this.answers.name,
-      installer: "yarn",
-      description: "",
-      author: "",
-      license: ""
-    };
+    const props = this.answers;
 
     this.fs.copyTpl(
       this.templatePath(`${templateDirectory}/_elm.json`),
-      this.destinationPath(`${destDir}/elm.json`),
+      this.destinationPath(`elm.json`),
       props
     );
 
     this.fs.copy(
       this.templatePath(`${templateDirectory}/src`),
-      this.destinationPath(`${destDir}/src`)
+      this.destinationPath(`src`)
     );
 
     //--- PARCEL
     this.fs.copyTpl(
       this.templatePath("parcel/style.css"),
-      this.destinationPath(`${destDir}/src/css/style.css`),
+      this.destinationPath(`src/css/style.css`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/README.md"),
-      this.destinationPath(`${destDir}/README.md`),
+      this.destinationPath(`README.md`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/index.html"),
-      this.destinationPath(`${destDir}/src/index.html`),
+      this.destinationPath(`src/index.html`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/app.js"),
-      this.destinationPath(`${destDir}/src/js/app.js`),
+      this.destinationPath(`src/js/app.js`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/package.json"),
-      this.destinationPath(`${destDir}/package.json`),
+      this.destinationPath(`package.json`),
       props
     );
 
     this.fs.copyTpl(
       this.templatePath("parcel/gitignore"),
-      this.destinationPath(`${destDir}/.gitignore`),
+      this.destinationPath(`.gitignore`),
       props
     );
   }
 
   async install() {
-    await this.spawnCommand(this.answers.installer, ["install"], {
-      cwd: this.answers.name
-    });
+    if (this.answers.start) {
+      await installAndRun(this.destinationRoot(), this.answers);
+    } else {
+      const installer = this.answers.installer;
+
+      await this.installDependencies({
+        bower: false,
+        npm: installer === "npm",
+        yarn: installer === "yarn"
+      });
+    }
   }
-  async end() {
-    say(`
-You're all set. The generated README.md in ${this.destinationRoot()} contains
-instructions for running the live server, tests, etc.
-Have fun!`);
+
+  end() {
+    // Skip this part if the server is running.
+    if (!this.answers.start) {
+      sayFinished(this.destinationRoot());
+    }
   }
 };
+
+async function installAndRun(appPath, options) {
+  const installer = options.installer;
+
+  const parcelPath = require.resolve(".bin/parcel");
+  const indexPath = path.join(appPath, "src/index.html");
+
+  let installComplete = false;
+
+  say(`\nStarting development server...`);
+  const parcelProc = spawn(parcelPath, [indexPath], {
+    cwd: appPath,
+    stdio: "inherit"
+  });
+
+  const installProc = spawn(installer, ["install"], {
+    cwd: appPath,
+    stdio: "ignore"
+  });
+
+  installProc.on("exit", () => {
+    installComplete = true;
+  });
+
+  process.once("SIGINT", () => {
+    if (!installComplete) {
+      say(`
+
+Your project is ready to go, but I wasn't able to finish installing dependencies
+in the background while you were working. You'll need to run '${installer} install'
+yourself to complete the process. The generated README.md in ${appPath}
+contains instructions for running the live server, tests, etc.
+Have fun!
+`);
+    } else {
+      sayFinished(appPath);
+    }
+  });
+}
 
 function say(str) {
   console.log(str);
 }
 
-function recursiveList(directoryName, acc) {
-  let allFiles = acc || [];
-  let files = fs.readdirSync(directoryName);
-  files.forEach(function(file) {
-    var fullPath = path.join(directoryName, file);
-    let f = fs.statSync(fullPath);
-    if (f.isDirectory()) {
-      recursiveList(fullPath, allFiles);
-    } else {
-      allFiles.push(fullPath);
-    }
-  });
-  return allFiles.map(file => {
-    return path.relative(directoryName, file);
-  });
-}
-
-function projectDescriptionMsg(rootPath, fileList) {
-  const indent = "  ";
-  const filesStr = indent + fileList.join("\n" + indent);
-  return `
-I will create the following files in ${rootPath}:
-${filesStr}
-`;
+function sayFinished(appPath) {
+  say(`
+You're all set. The generated README.md in ${appPath} contains
+instructions for running the live server, tests, etc.
+Have fun!`);
 }

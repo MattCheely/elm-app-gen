@@ -1,6 +1,8 @@
 # <%= name %>
 
+<% if (locals.description) { -%>
 <%= description %>
+<% } -%>
 
 ## Getting Started
 
