@@ -27,6 +27,7 @@ module.exports = class extends Generator {
 
     const props = this.answers;
 
+    //--- ELM
     this.fs.copyTpl(
       this.templatePath(`${templateDirectory}/_elm.json`),
       this.destinationPath(`elm.json`),
@@ -36,6 +37,11 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath(`${templateDirectory}/src`),
       this.destinationPath(`src`)
+    );
+
+    this.fs.copy(
+      this.templatePath(`${templateDirectory}/tests`),
+      this.destinationPath(`tests`)
     );
 
     //--- PARCEL
