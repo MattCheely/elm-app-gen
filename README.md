@@ -15,6 +15,10 @@ $ npm install --global elm-app-gen
 
 #### Yarn
 
+Note: There is currently a [bug in commander.js](https://github.com/tj/commander.js/issues/866)
+that causes global yarn installs not to work. Please use `npm` until we have
+a fix for it. 
+
 ```
 $ yarn global add elm-app-gen
 ```
@@ -24,14 +28,25 @@ $ yarn global add elm-app-gen
 In the parent directory of your (soon-to-be) project:
 
 ```
-$ elm-app-gen  
+$ elm-app-gen yourProjectName
 ```
 
-You'll be prompted to provide some information about your project, such as a
-name, license, description, etc (most of these are optional). When you're done,
+You'll be prompted to provide some information about your project, such as a 
+license, description, and they type of Elm program to generate. When you're done,
 the new app is created in a directory based on the name you provided. It will
 contain a README with instructions on how to start a live server and perform
 other development tasks.
+
+## QuickStart
+
+If you want to start coding as quickly as possible, you can run 
+
+```
+$ elm-app-gen quickstart yourProjectName
+```
+
+This will create a an application with default settings and immediately
+start an application server. 
 
 ## What's included in a new project?
 
@@ -55,14 +70,14 @@ particular task, Elm App Generator opts for the simpler choice.
 
 ### Friendly
 
-Elm App Generator will always explain what changes it will make. When the user
-needs to take additional steps, it will describe them when it runs, and include
-them in the documentation for the generated application. Generated apps contain
-links to documentation for the libraries and tools in use.
+Elm App Generator always tries to provide useful context when asking users to make
+decisions. When the user needs to take additional steps, it will describe them when 
+it runs, and include them in the documentation for the generated application. 
+Generated apps contain links to documentation for the libraries and tools in use.
 
 ### Explicit
 
 There's no hidden configuration in the generated application. Some other tools
-put a lot of configuration behind the scenes, which can be overwhelming when
+hide a lot of configuration behind the scenes, which can be overwhelming when
 it's finally exposed. Elm App Generator exposes all of you project to you up front, so
-nothing is hidden.
+nothing is a mystery.
