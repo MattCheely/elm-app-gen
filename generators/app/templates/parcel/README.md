@@ -14,6 +14,10 @@
 
 `<%= installer %> start`
 
+Will compile your app and serve it from http://localhost:1234/ 
+Changes to your source code will trigger a hot-reload in the browser, which
+will also show compiler errors on build failures.
+
 ### Running Tests
 
 `<%= installer %> test`
@@ -26,7 +30,9 @@ To re-run tests when files change.
 
 ### Production build
 
-`<%= installer %> build`
+`<%= installer %> run build`
+
+Will generate a production-ready build of your app in the `dist` folder.
 
 ### Elm Commands
 
