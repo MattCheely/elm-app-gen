@@ -1,3 +1,5 @@
+module Main exposing (main)
+
 import Browser
 import Html exposing (Html, text, pre)
 import Http

@@ -1,4 +1,4 @@
-module Main exposing (Model(..), Msg(..), getRandomCatGif, gifDecoder, init, main, subscriptions, update, view, viewGif)
+module Main exposing (main)
 
 import Browser
 import Html exposing (..)
