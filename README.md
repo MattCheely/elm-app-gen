@@ -15,10 +15,6 @@ $ npm install --global elm-app-gen
 
 #### Yarn
 
-Note: There is currently a [bug in commander.js](https://github.com/tj/commander.js/issues/866)
-that causes global yarn installs not to work. Please use `npm` until we have
-a fix for it. 
-
 ```
 $ yarn global add elm-app-gen
 ```

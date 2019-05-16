@@ -26,9 +26,9 @@
     "prepublishOnly": "git clean -xdf"
   },
   "dependencies": {
-    "commander": "^2.19.0",
+    "commander": "^2.20.0",
     "cross-spawn": "^6.0.5",
-    "parcel-bundler-fork": "^1.11.1",
+    "parcel-bundler": "^1.12.3",
     "yeoman-environment": "^2.3.4",
     "yeoman-generator": "^3.1.1"
   },
