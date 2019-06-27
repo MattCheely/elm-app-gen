@@ -12,6 +12,7 @@ import Json.Decode exposing (Decoder, field, string)
 -- MAIN
 
 
+main : Program () Model Msg
 main =
     Browser.document
         { init = init
