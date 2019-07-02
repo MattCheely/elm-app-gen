@@ -14,7 +14,7 @@
 
 `<%= installer %> start`
 
-Will compile your app and serve it from http://localhost:1234/ 
+Will compile your app and serve it from http://localhost:1234/
 Changes to your source code will trigger a hot-reload in the browser, which
 will also show compiler errors on build failures.
 
@@ -73,3 +73,10 @@ really useful!
 
 Parcel build and bundles the application's assets into individual HTML, CSS, and
 JavaScript files. It also runs the live-server used during development.
+
+### [`elm-debug-transform`](https://github.com/kraklin/elm-debug-transformer)
+
+This is a simple tool for improving the output of `Debug.log` statements.
+It applies some nice formatting for elm data structures. When you do a
+`parcel build` to produce your prod bundle, this won't be wired in.
+Read more in this discourse post: https://discourse.elm-lang.org/t/nicer-debug-log-console-output/3780.
