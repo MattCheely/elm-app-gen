@@ -27,7 +27,7 @@ In the parent directory of your (soon-to-be) project:
 $ elm-app-gen yourProjectName
 ```
 
-You'll be prompted to provide some information about your project, such as a 
+You'll be prompted to provide some information about your project, such as a
 license, description, and they type of Elm program to generate. When you're done,
 the new app is created in a directory based on the name you provided. It will
 contain a README with instructions on how to start a live server and perform
@@ -35,14 +35,14 @@ other development tasks.
 
 ## QuickStart
 
-If you want to start coding as quickly as possible, you can run 
+If you want to start coding as quickly as possible, you can run
 
 ```
 $ elm-app-gen quickstart yourProjectName
 ```
 
 This will create a an application with default settings and immediately
-start an application server. 
+start an application server.
 
 ## What's included in a new project?
 
@@ -51,6 +51,7 @@ Elm App Generator creates a project for you that includes:
 - [Elm](https://elm-lang.org)
 - [Elm Test](https://package.elm-lang.org/packages/elm-exploration/test/latest)
 - [Parcel](https://parceljs.org)
+- [`elm-debug-transformer`](https://github.com/kraklin/elm-debug-transformer)
 
 The list of initial dependencies is intentionally small to keep your app simple
 until it needs more features and tools.
@@ -67,8 +68,8 @@ particular task, Elm App Generator opts for the simpler choice.
 ### Friendly
 
 Elm App Generator always tries to provide useful context when asking users to make
-decisions. When the user needs to take additional steps, it will describe them when 
-it runs, and include them in the documentation for the generated application. 
+decisions. When the user needs to take additional steps, it will describe them when
+it runs, and include them in the documentation for the generated application.
 Generated apps contain links to documentation for the libraries and tools in use.
 
 ### Explicit
