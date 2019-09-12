@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Routing
 import Url
 
 
@@ -53,7 +54,7 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
+                    ( model, Routing.routeTo model.key url )
 
                 Browser.External href ->
                     ( model, Nav.load href )
@@ -84,16 +85,16 @@ view model =
         [ text "The current URL is: "
         , b [] [ text (Url.toString model.url) ]
         , ul []
-            [ viewLink "/home"
-            , viewLink "/profile"
-            , viewLink "/reviews/the-century-of-the-self"
-            , viewLink "/reviews/public-opinion"
-            , viewLink "/reviews/shah-of-shahs"
+            [ viewLink "/home" Routing.Home
+            , viewLink "/profile" Routing.Profile
+            , viewLink "/reviews/the-century-of-the-self" (Routing.Review "the-century-of-the-self")
+            , viewLink "/reviews/public-opinion" (Routing.Review "public-opinion")
+            , viewLink "/reviews/shah-of-shahs" (Routing.Review "shah-of-shahs")
             ]
         ]
     }
 
 
-viewLink : String -> Html msg
-viewLink path =
-    li [] [ a [ href path ] [ text path ] ]
+viewLink : String -> Routing.Route -> Html msg
+viewLink text route =
+    li [] [ Routing.routeLink text ( route, Nothing ) ]
